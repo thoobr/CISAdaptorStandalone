@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!--Copyright: this document is the property of CEN/WS-ISDEM worksop. Its 
+utilisation should clearly mention its CEN/WS-ISDEM source.--> 
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns="http://tacticalsituationobject.org/schemas/TSO/2_0" 
+targetNamespace="http://tacticalsituationobject.org/schemas/TSO/2_0" 
+elementFormDefault="qualified" attributeFormDefault="unqualified" 
+version="2_0"> 
+  <xs:element name="TSO_2_0" type="TSO_2_0type"> 
+    <xs:annotation> 
+      <xs:documentation>This schema describes the contents of the Tactical 
+		Situation Object proposed by the CEN/WS-ISDEM workshop. The goal of the TSO 
+		is to allow different agencies to exchange tactical information during an 
+		emergency, so that each involved responder has a good and common knowledge 
+		of the status of the operations.</xs:documentation> 
+    </xs:annotation> 
+  </xs:element> 
+  <xs:complexType name="TSO_2_0type"> 
+    <xs:annotation> 
+      <xs:documentation>--- Modified in V1.1: new --- Updated for version 1.2,  1.3, 1.3a, 1.4, 2.0 ---</xs:documentation> 
+    </xs:annotation> 
+    <xs:sequence> 
+      <xs:element ref="CONTEXT"/> 
+      <xs:element ref="EVENT"/> 
+      <xs:element ref="RESOURCE" minOccurs="0" maxOccurs="unbounded"/> 
+      <xs:element ref="MISSION" minOccurs="0" maxOccurs="unbounded"/> 
+    </xs:sequence> 
+  </xs:complexType> 
+  <xs:element name="CONTEXT"> 
+    <xs:annotation> 
+      <xs:documentation>This part of the TSO identifies the context of each instance of a TSO</xs:documentation> 
+    </xs:annotation> 
+    <xs:complexType> 
+      <xs:sequence> 
+        <xs:element name="ID" nillable="false"> 
+          <xs:annotation> 
+            <xs:documentation>The identifier of the TSO which shall be unique over the context in which the TSO is used. (Name of the element has been changed in version 1.2)</xs:documentation> 
+          </xs:annotation> 
+          <xs:simpleType> 
+            <xs:restriction base="xs:string"> 
+              <xs:maxLength value="40"/> 
+            </xs:restriction> 
+          </xs:simpleType> 
+        </xs:element> 
+        <xs:element name="MODE"> 
+          <xs:annotation> 
+            <xs:documentation>It defines if the TSO is related to an actual 
+				event (ACTUAL value), an exercise (EXERCS value) or a test (SYSTEM value 
+				for messages that support alert network internal functions or TEST, for 
+				technical testing only, all recipients disregard).</xs:documentation> 
+          </xs:annotation> 
+          <xs:simpleType>
+                      <xs:restriction base="xs:string"> 
+              <xs:enumeration value="ACTUAL"/> 
+              <xs:enumeration value="EXERCS"/> 
+              <xs:enumeration value="SYSTEM"/> 
+              <xs:enumeration value="TEST"/> 
+            </xs:restriction> 
+          </xs:simpleType> 
+        </xs:element> 
+        <xs:element name="MSGTYPE"> 
+          <xs:annotation> 
+            <xs:documentation>The code denoting the nature of the alert 
+message. This element is mandatory. The possible values are: ACK = 
+Acknowledges receipt and acceptance of the message(s)) identified in 
+reference, ALERT = Initial information requiring attention by targeted 
+recipients, CANCEL = Cancels the earlier message(s) identified in 
+reference, ERROR = indicates rejection of the message(s) identified in 
+reference, UPDATE = Updates and supersedes the earlier message(s) 
+identified in reference.</xs:documentation> 
+          </xs:annotation> 
+          <xs:simpleType> 
+            <xs:restriction base="xs:string"> 
+              <xs:enumeration value="ALERT"/> 
+              <xs:enumeration value="UPDATE"/> 
+              <xs:enumeration value="CANCEL"/> 
+              <xs:enumeration value="ACK"/> 
+              <xs:enumeration value="ERROR"/> 
+            </xs:restriction> 
+          </xs:simpleType> 
+        </xs:element> 
+        <xs:element name="CREATION" type="xs:dateTime" minOccurs="0"> 
+          <xs:annotation> 
+            <xs:documentation>--- Modified in version 1.2 --- The date and 
+time when the TSO was created. This is the date and time of the sender 
+computer and receivers may not assume that this date and time is 
+accurate.</xs:documentation> 
+          </xs:annotation> 
+        </xs:element> 
+        <xs:element name="LINK" minOccurs="0" maxOccurs="unbounded"> 
+          <xs:annotation> 
+            <xs:documentation>--- Modified in V1.2: multiple links are now 
+allowed, and an optional ROLE element has been added.</xs:documentation> 
+          </xs:annotation> 
+          <xs:complexType> 
+            <xs:sequence> 
+              <xs:element name="ID"> 
+                <xs:annotation> 
+                  <xs:documentation>The identifier (ID) of another TSO to 
+which this TSO is related.</xs:documentation> 
+                </xs:annotation> 
+                <xs:simpleType> 
+                  <xs:restriction base="xs:string"> 
+                    <xs:maxLength value="40"/> 
+                  </xs:restriction> 
+                </xs:simpleType> 
+              </xs:element> 
+              <xs:element name="ROLE" minOccurs="0"> 
+                <xs:annotation> 
+                  <xs:documentation>--- New in version 1.2 --- Defines the 
+relation of the linked TSO through the data dictionary.</xs:documentation> 
+                </xs:annotation> 
+                <xs:simpleType> 
